@@ -18,6 +18,7 @@ RUN apk -U upgrade \
     ca-certificates \
     su-exec \
     tini \
+ && pip install --upgrade pip \
  && pip install --no-cache cffi \
  && pip install --no-cache misaka==1.0.2 \
  && pip install --no-cache "isso==${ISSO_VER}" \
