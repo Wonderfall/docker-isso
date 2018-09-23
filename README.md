@@ -45,3 +45,46 @@ isso:
     - /mnt/docker/isso/config:/config
     - /mnt/docker/isso/db:/db
 ```
+
+#### Example of uWSGI configuration
+```
+# /mnt/docker/isso/config/isso.uwsgi
+[uwsgi]
+http = :8080
+master = true
+; set to `nproc`
+processes = 4
+cache2 = name=hash,items=1024,blocksize=32
+; you may change this
+spooler = /var/spool/isso
+module = isso.run
+
+# docker-compose.yml
+isso:
+  image: wonderfall/isso
+  environment:
+    - GID=1000
+    - UID=1000
+  command: uwsgi --ini /config/isso.uwsgi
+  volumes:
+    - /mnt/docker/isso/config:/config
+    - /mnt/docker/isso/db:/db
+  environment:
+    - ISSO_SETTINGS=/config/isso.conf
+```
+
+#### Example of Gunicorn configuration
+```
+# docker-compose.yml
+isso:
+  image: wonderfall/isso
+  environment:
+    - GID=1000
+    - UID=1000
+  command: gunicorn -b :8080 -w 4 --preload isso.run
+  volumes:
+    - /mnt/docker/isso/config:/config
+    - /mnt/docker/isso/db:/db
+  environment:
+    - ISSO_SETTINGS=/config/isso.conf
+```

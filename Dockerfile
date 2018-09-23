@@ -10,6 +10,7 @@ RUN apk -U upgrade \
     libffi-dev \
     py2-pip \
     build-base \
+    linux-headers \
  && apk add \
     python \
     py-setuptools \
@@ -21,8 +22,11 @@ RUN apk -U upgrade \
  && pip install --no-cache cffi \
  && pip install --no-cache misaka==1.0.2 \
  && pip install --no-cache "isso==${ISSO_VER}" \
+ && pip install --no-cache gevent uwsgi gunicorn #wsgi servers \
  && apk del build-dependencies \
+ && mkdir -p /var/spool/isso   \
  && rm -rf /tmp/* /var/cache/apk/*
+
 
 COPY run.sh /usr/local/bin/run.sh
 
