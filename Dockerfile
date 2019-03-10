@@ -1,26 +1,22 @@
-FROM alpine:3.8
+FROM alpine:3.9
 
-ARG ISSO_VER=0.10.6
+ARG ISSO_VER=0.12.2
 
 ENV GID=1000 UID=1000
 
 RUN apk -U upgrade \
  && apk add -t build-dependencies \
-    python-dev \
+    python3-dev \
     libffi-dev \
-    py2-pip \
     build-base \
  && apk add \
-    python \
-    py-setuptools \
+    python3 \
     sqlite \
-    libressl \
+    openssl \
     ca-certificates \
     su-exec \
     tini \
- && pip install --no-cache cffi \
- && pip install --no-cache misaka==1.0.2 \
- && pip install --no-cache "isso==${ISSO_VER}" \
+ && pip3 install --no-cache "isso==${ISSO_VER}" \
  && apk del build-dependencies \
  && rm -rf /tmp/* /var/cache/apk/*
 
