@@ -4,6 +4,8 @@ ARG ISSO_VER=0.12.2
 
 ENV GID=1000 UID=1000
 
+COPY run.sh /usr/local/bin/run.sh
+
 RUN apk -U upgrade \
  && apk add -t build-dependencies \
     python3-dev \
@@ -18,11 +20,8 @@ RUN apk -U upgrade \
     tini \
  && pip3 install --no-cache "isso==${ISSO_VER}" \
  && apk del build-dependencies \
+ && chmod +x /usr/local/bin/run.sh \
  && rm -rf /tmp/* /var/cache/apk/*
-
-COPY run.sh /usr/local/bin/run.sh
-
-RUN chmod +x /usr/local/bin/run.sh
 
 EXPOSE 8080
 
