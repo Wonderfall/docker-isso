@@ -1,6 +1,6 @@
 FROM alpine:3.9
 
-ARG ISSO_VER=0.12.2
+ARG ISSO_VER=0.12.6
 
 ENV GID=1000 UID=1000
 
@@ -16,6 +16,7 @@ RUN apk -U upgrade \
     ca-certificates \
     su-exec \
     tini \
+ && pip3 install gevent \
  && pip3 install --no-cache "isso==${ISSO_VER}" \
  && apk del build-dependencies \
  && rm -rf /tmp/* /var/cache/apk/*
