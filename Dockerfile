@@ -16,6 +16,7 @@ RUN apk -U upgrade \
     ca-certificates \
     su-exec \
     tini \
+ && pip3 install gevent \
  && pip3 install --no-cache "isso==${ISSO_VER}" \
  && apk del build-dependencies \
  && rm -rf /tmp/* /var/cache/apk/*
